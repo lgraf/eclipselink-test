@@ -4,8 +4,10 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import org.test.entity.Child;
-import org.test.entity.Parent;
+import org.test.entity.embeddedmapping.ParentEmbeddedChildren;
+import org.test.entity.entitymapping.ParentEntityChildren;
+import org.test.entity.shared.Child;
+import org.test.entity.shared.Parent;
 
 
 class DuplicateKeyCase
@@ -20,10 +22,24 @@ class DuplicateKeyCase
 	}
 
 
-	void forceDuplicateKeyException()
+	void embeededChildrenCase()
 	{
-		List<Parent> parents = em.createNamedQuery( "findAllParents", Parent.class )
-				.getResultList();
+		List<ParentEmbeddedChildren> parents = em.createNamedQuery(
+				"findAllParentWithEmbeddedChildren", ParentEmbeddedChildren.class ).getResultList();
+		forceDuplicateKeyException( parents );
+	}
+
+
+	void entityChildrenCase()
+	{
+		List<ParentEntityChildren> parents = em.createNamedQuery(
+				"findAllParentWithEntityChildren", ParentEntityChildren.class ).getResultList();
+		forceDuplicateKeyException( parents );
+	}
+
+
+	void forceDuplicateKeyException( List<? extends Parent> parents )
+	{
 		for ( Parent parent : parents )
 		{
 			for ( Child child : parent.getChildren() )
@@ -33,4 +49,5 @@ class DuplicateKeyCase
 			em.flush(); // seems the problem ...
 		}
 	}
+
 }

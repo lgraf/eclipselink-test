@@ -1,4 +1,4 @@
-package org.test.entity;
+package org.test.entity.shared;
 
 public enum RelationType
 {

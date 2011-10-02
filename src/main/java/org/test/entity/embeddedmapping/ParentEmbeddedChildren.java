@@ -1,4 +1,4 @@
-package org.test.entity;
+package org.test.entity.embeddedmapping;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -15,6 +15,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
+import org.test.entity.shared.Child;
+import org.test.entity.shared.Parent;
+
 
 /**
  * @author sbn
@@ -22,9 +25,9 @@ import javax.persistence.NamedQuery;
 @Entity
 @NamedQueries( 
 {
-	@NamedQuery( name = "findAllParents", query = "SELECT parent FROM Parent parent order by parent.id asc" )
+	@NamedQuery( name = "findAllParentWithEmbeddedChildren", query = "SELECT parent FROM ParentEmbeddedChildren parent order by parent.id asc" )
 } )
-public class Parent implements Serializable
+public class ParentEmbeddedChildren implements Parent, Serializable
 {
 
 	@Id
@@ -34,11 +37,11 @@ public class Parent implements Serializable
 
 	@ElementCollection
 	@CollectionTable( joinColumns = @JoinColumn( name = "parent_id", nullable = false ) )
-	private Set<Child> children = new HashSet<Child>();
+	private Set<EmbeddableChild> children = new HashSet<EmbeddableChild>();
 	
 	
-	public Parent() {}
-	public Parent( Set<Child> children )
+	public ParentEmbeddedChildren() {}
+	public ParentEmbeddedChildren( Set<EmbeddableChild> children )
 	{
 		this.children = children;
 	}
@@ -50,7 +53,8 @@ public class Parent implements Serializable
 	}
 
 	
-	public Set<Child> getChildren()
+	@Override
+	public Set<? extends Child> getChildren()
 	{
 		return Collections.unmodifiableSet( children );
 	}
@@ -64,7 +68,7 @@ public class Parent implements Serializable
 		if ( getClass() != obj.getClass() )
 			return false;
 		// TODO: Warning - this method won't work in the case the id fields are not set
-		Parent other = (Parent) obj;
+		ParentEmbeddedChildren other = (ParentEmbeddedChildren) obj;
 		if ( id == null )
 		{
 			if ( other.id != null )

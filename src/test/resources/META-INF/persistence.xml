@@ -5,9 +5,11 @@
 	<persistence-unit name="eclipselinkTestPU"
 		transaction-type="RESOURCE_LOCAL">
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-		<class>org.test.entity.Parent</class>
-		<class>org.test.entity.Child</class>
-		<class>org.test.entity.EntityRelation</class>
+		<class>org.test.entity.embeddedmapping.ParentEmbeddedChildren</class>
+		<class>org.test.entity.embeddedmapping.EmbeddableChild</class>
+		<class>org.test.entity.entitymapping.ParentEntityChildren</class>
+		<class>org.test.entity.entitymapping.EntityChild</class>
+		<class>org.test.entity.shared.EntityRelation</class>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbcDriver" />
 			<property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:mem:eclipselink-test" />

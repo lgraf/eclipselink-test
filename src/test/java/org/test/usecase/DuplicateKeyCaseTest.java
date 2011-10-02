@@ -68,9 +68,16 @@ public class DuplicateKeyCaseTest
 
 
 	@Test
-	public void forceDuplicateKeyException() throws Exception
+	public void forceDuplicateKeyExceptionWithParentEmbeddedChildren()
 	{
-		new DuplicateKeyCase( em ).forceDuplicateKeyException();
+		new DuplicateKeyCase( em ).embeededChildrenCase();
+	}
+
+
+	@Test
+	public void forceDuplicateKeyExceptionWithParentEntityChildren()
+	{
+		new DuplicateKeyCase( em ).entityChildrenCase();
 	}
 
 
@@ -78,6 +85,7 @@ public class DuplicateKeyCaseTest
 	{
 		em = emf.createEntityManager();
 	}
+
 
 	private void destroyEntityManager()
 	{
@@ -88,31 +96,47 @@ public class DuplicateKeyCaseTest
 		}
 	}
 
+
 	private void setUpDBInOwnTransaction()
 	{
 		em.getTransaction().begin();
-		em.createNativeQuery( "INSERT INTO parent VALUES (1)" ).executeUpdate();
-		em.createNativeQuery( "INSERT INTO parent VALUES (2)" ).executeUpdate();
+		em.createNativeQuery( "INSERT INTO EntityRelation VALUES (1, 'relation1', 'STRING_T')" ).executeUpdate();
+		em.createNativeQuery( "INSERT INTO EntityRelation VALUES (2, 'relation2', 'INTEGER_T')" ).executeUpdate();
+		em.createNativeQuery( "INSERT INTO EntityRelation VALUES (3, 'relation3', 'DATE_T')" ).executeUpdate();
 
-		em.createNativeQuery( "INSERT INTO entityrelation VALUES (1, 'relation1', 'STRING_T')" ).executeUpdate();
-		em.createNativeQuery( "INSERT INTO entityrelation VALUES (2, 'relation2', 'INTEGER_T')" ).executeUpdate();
-		em.createNativeQuery( "INSERT INTO entityrelation VALUES (3, 'relation3', 'DATE_T')" ).executeUpdate();
+		em.createNativeQuery( "INSERT INTO ParentEmbeddedChildren VALUES (1)" ).executeUpdate();
+		em.createNativeQuery( "INSERT INTO ParentEmbeddedChildren VALUES (2)" ).executeUpdate();
 
-		em.createNativeQuery( "INSERT INTO parent_children VALUES ('child1', 1, 1)" ).executeUpdate();
-		em.createNativeQuery( "INSERT INTO parent_children VALUES ('child2', 2, 1)" ).executeUpdate();
-		em.createNativeQuery( "INSERT INTO parent_children VALUES ('child3', 3, 1)" ).executeUpdate();
-		em.createNativeQuery( "INSERT INTO parent_children VALUES ('child4', 1, 2)" ).executeUpdate();
-		em.createNativeQuery( "INSERT INTO parent_children VALUES ('child5', 2, 2)" ).executeUpdate();
-		em.createNativeQuery( "INSERT INTO parent_children VALUES ('child6', 3, 2)" ).executeUpdate();
+		em.createNativeQuery( "INSERT INTO ParentEmbeddedChildren_Children VALUES ('child1', 1, 1)" ).executeUpdate();
+		em.createNativeQuery( "INSERT INTO ParentEmbeddedChildren_Children VALUES ('child2', 2, 1)" ).executeUpdate();
+		em.createNativeQuery( "INSERT INTO ParentEmbeddedChildren_Children VALUES ('child3', 3, 1)" ).executeUpdate();
+		em.createNativeQuery( "INSERT INTO ParentEmbeddedChildren_Children VALUES ('child4', 1, 2)" ).executeUpdate();
+		em.createNativeQuery( "INSERT INTO ParentEmbeddedChildren_Children VALUES ('child5', 2, 2)" ).executeUpdate();
+		em.createNativeQuery( "INSERT INTO ParentEmbeddedChildren_Children VALUES ('child6', 3, 2)" ).executeUpdate();
+
+		em.createNativeQuery( "INSERT INTO ParentEntityChildren VALUES (1)" ).executeUpdate();
+		em.createNativeQuery( "INSERT INTO ParentEntityChildren VALUES (2)" ).executeUpdate();
+
+		em.createNativeQuery( "INSERT INTO EntityChild VALUES (1, 'child1', 1, 1)" ).executeUpdate();
+		em.createNativeQuery( "INSERT INTO EntityChild VALUES (2, 'child1', 2, 1)" ).executeUpdate();
+		em.createNativeQuery( "INSERT INTO EntityChild VALUES (3, 'child1', 3, 1)" ).executeUpdate();
+		em.createNativeQuery( "INSERT INTO EntityChild VALUES (4, 'child1', 1, 2)" ).executeUpdate();
+		em.createNativeQuery( "INSERT INTO EntityChild VALUES (5, 'child1', 2, 2)" ).executeUpdate();
+		em.createNativeQuery( "INSERT INTO EntityChild VALUES (6, 'child1', 3, 2)" ).executeUpdate();
 		em.getTransaction().commit();
 	}
+
 
 	private void cleanUpDBInOwnTransaction()
 	{
 		em.getTransaction().begin();
-		em.createNativeQuery( "DELETE FROM parent_children" ).executeUpdate();
-		em.createNativeQuery( "DELETE FROM parent" ).executeUpdate();
-		em.createNativeQuery( "DELETE FROM entityrelation" ).executeUpdate();
+		em.createNativeQuery( "DELETE FROM ParentEmbeddedChildren_Children" ).executeUpdate();
+		em.createNativeQuery( "DELETE FROM ParentEmbeddedChildren" ).executeUpdate();
+
+		em.createNativeQuery( "DELETE FROM EntityChild" ).executeUpdate();
+		em.createNativeQuery( "DELETE FROM ParentEntityChildren" ).executeUpdate();
+
+		em.createNativeQuery( "DELETE FROM EntityRelation" ).executeUpdate();
 		em.getTransaction().commit();
 	}
 
