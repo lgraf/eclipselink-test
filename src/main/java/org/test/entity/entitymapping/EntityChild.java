@@ -43,6 +43,7 @@ public class EntityChild implements Child, Serializable
 	}
 	
 	
+	@Override
 	public EntityRelation getEntityRelation()
 	{
 		return entityRelation;

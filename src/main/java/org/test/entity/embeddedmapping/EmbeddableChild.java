@@ -30,6 +30,7 @@ public class EmbeddableChild implements Child, Serializable
 	}
 
 	
+	@Override
 	public EntityRelation getEntityRelation()
 	{
 		return entityRelation;
