@@ -68,12 +68,19 @@ public class DuplicateKeyCaseTest
 
 
 	@Test
-	public void forceDuplicateKeyExceptionWithParentEmbeddedChildren()
+	public void forceDuplicateKeyExceptionWithParentEmbeddedSetChildren()
 	{
-		new DuplicateKeyCase( em ).embeededChildrenCase();
+		new DuplicateKeyCase( em ).embeededChildrenSetCase();
 	}
-
-
+	
+	
+	@Test
+	public void forceDuplicateKeyExceptionWithParentEmbeddedListChildren()
+	{
+		new DuplicateKeyCase( em ).embeededChildrenListCase();
+	}
+	
+	
 	@Test
 	public void forceDuplicateKeyExceptionWithParentEntityChildren()
 	{
@@ -104,16 +111,29 @@ public class DuplicateKeyCaseTest
 		em.createNativeQuery( "INSERT INTO EntityRelation VALUES (2, 'relation2', 'INTEGER_T')" ).executeUpdate();
 		em.createNativeQuery( "INSERT INTO EntityRelation VALUES (3, 'relation3', 'DATE_T')" ).executeUpdate();
 
-		em.createNativeQuery( "INSERT INTO ParentEmbeddedChildren VALUES (1)" ).executeUpdate();
-		em.createNativeQuery( "INSERT INTO ParentEmbeddedChildren VALUES (2)" ).executeUpdate();
+		
+		em.createNativeQuery( "INSERT INTO ParentEmbeddedSetChildren VALUES (1)" ).executeUpdate();
+		em.createNativeQuery( "INSERT INTO ParentEmbeddedSetChildren VALUES (2)" ).executeUpdate();
+		
+		em.createNativeQuery( "INSERT INTO ParentEmbeddedSetChildren_Children VALUES ('child1', 1, 1)" ).executeUpdate();
+		em.createNativeQuery( "INSERT INTO ParentEmbeddedSetChildren_Children VALUES ('child2', 2, 1)" ).executeUpdate();
+		em.createNativeQuery( "INSERT INTO ParentEmbeddedSetChildren_Children VALUES ('child3', 3, 1)" ).executeUpdate();
+		em.createNativeQuery( "INSERT INTO ParentEmbeddedSetChildren_Children VALUES ('child4', 1, 2)" ).executeUpdate();
+		em.createNativeQuery( "INSERT INTO ParentEmbeddedSetChildren_Children VALUES ('child5', 2, 2)" ).executeUpdate();
+		em.createNativeQuery( "INSERT INTO ParentEmbeddedSetChildren_Children VALUES ('child6', 3, 2)" ).executeUpdate();
+		
+		
+		em.createNativeQuery( "INSERT INTO ParentEmbeddedListChildren VALUES (1)" ).executeUpdate();
+		em.createNativeQuery( "INSERT INTO ParentEmbeddedListChildren VALUES (2)" ).executeUpdate();
 
-		em.createNativeQuery( "INSERT INTO ParentEmbeddedChildren_Children VALUES ('child1', 1, 1)" ).executeUpdate();
-		em.createNativeQuery( "INSERT INTO ParentEmbeddedChildren_Children VALUES ('child2', 2, 1)" ).executeUpdate();
-		em.createNativeQuery( "INSERT INTO ParentEmbeddedChildren_Children VALUES ('child3', 3, 1)" ).executeUpdate();
-		em.createNativeQuery( "INSERT INTO ParentEmbeddedChildren_Children VALUES ('child4', 1, 2)" ).executeUpdate();
-		em.createNativeQuery( "INSERT INTO ParentEmbeddedChildren_Children VALUES ('child5', 2, 2)" ).executeUpdate();
-		em.createNativeQuery( "INSERT INTO ParentEmbeddedChildren_Children VALUES ('child6', 3, 2)" ).executeUpdate();
+		em.createNativeQuery( "INSERT INTO ParentEmbeddedListChildren_Children VALUES ('child1', 1, 1)" ).executeUpdate();
+		em.createNativeQuery( "INSERT INTO ParentEmbeddedListChildren_Children VALUES ('child2', 2, 1)" ).executeUpdate();
+		em.createNativeQuery( "INSERT INTO ParentEmbeddedListChildren_Children VALUES ('child3', 3, 1)" ).executeUpdate();
+		em.createNativeQuery( "INSERT INTO ParentEmbeddedListChildren_Children VALUES ('child4', 1, 2)" ).executeUpdate();
+		em.createNativeQuery( "INSERT INTO ParentEmbeddedListChildren_Children VALUES ('child5', 2, 2)" ).executeUpdate();
+		em.createNativeQuery( "INSERT INTO ParentEmbeddedListChildren_Children VALUES ('child6', 3, 2)" ).executeUpdate();
 
+		
 		em.createNativeQuery( "INSERT INTO ParentEntityChildren VALUES (1)" ).executeUpdate();
 		em.createNativeQuery( "INSERT INTO ParentEntityChildren VALUES (2)" ).executeUpdate();
 
@@ -130,8 +150,11 @@ public class DuplicateKeyCaseTest
 	private void cleanUpDBInOwnTransaction()
 	{
 		em.getTransaction().begin();
-		em.createNativeQuery( "DELETE FROM ParentEmbeddedChildren_Children" ).executeUpdate();
-		em.createNativeQuery( "DELETE FROM ParentEmbeddedChildren" ).executeUpdate();
+		em.createNativeQuery( "DELETE FROM ParentEmbeddedSetChildren_Children" ).executeUpdate();
+		em.createNativeQuery( "DELETE FROM ParentEmbeddedSetChildren" ).executeUpdate();
+		
+		em.createNativeQuery( "DELETE FROM ParentEmbeddedListChildren_Children" ).executeUpdate();
+		em.createNativeQuery( "DELETE FROM ParentEmbeddedListChildren" ).executeUpdate();
 
 		em.createNativeQuery( "DELETE FROM EntityChild" ).executeUpdate();
 		em.createNativeQuery( "DELETE FROM ParentEntityChildren" ).executeUpdate();

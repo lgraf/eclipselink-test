@@ -25,9 +25,9 @@ import org.test.entity.shared.Parent;
 @Entity
 @NamedQueries( 
 {
-	@NamedQuery( name = "findAllParentWithEmbeddedChildren", query = "SELECT parent FROM ParentEmbeddedChildren parent order by parent.id asc" )
+	@NamedQuery( name = "findAllParentWithEmbeddedSetChildren", query = "SELECT parent FROM ParentEmbeddedSetChildren parent order by parent.id asc" )
 } )
-public class ParentEmbeddedChildren implements Parent, Serializable
+public class ParentEmbeddedSetChildren implements Parent, Serializable
 {
 
 	@Id
@@ -40,8 +40,8 @@ public class ParentEmbeddedChildren implements Parent, Serializable
 	private Set<EmbeddableChild> children = new HashSet<EmbeddableChild>();
 	
 	
-	public ParentEmbeddedChildren() {}
-	public ParentEmbeddedChildren( Set<EmbeddableChild> children )
+	public ParentEmbeddedSetChildren() {}
+	public ParentEmbeddedSetChildren( Set<EmbeddableChild> children )
 	{
 		this.children = children;
 	}
@@ -68,7 +68,7 @@ public class ParentEmbeddedChildren implements Parent, Serializable
 		if ( getClass() != obj.getClass() )
 			return false;
 		// TODO: Warning - this method won't work in the case the id fields are not set
-		ParentEmbeddedChildren other = (ParentEmbeddedChildren) obj;
+		ParentEmbeddedSetChildren other = (ParentEmbeddedSetChildren) obj;
 		if ( id == null )
 		{
 			if ( other.id != null )

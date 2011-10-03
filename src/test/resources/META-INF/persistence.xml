@@ -5,7 +5,8 @@
 	<persistence-unit name="eclipselinkTestPU"
 		transaction-type="RESOURCE_LOCAL">
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-		<class>org.test.entity.embeddedmapping.ParentEmbeddedChildren</class>
+		<class>org.test.entity.embeddedmapping.ParentEmbeddedSetChildren</class>
+		<class>org.test.entity.embeddedmapping.ParentEmbeddedListChildren</class>
 		<class>org.test.entity.embeddedmapping.EmbeddableChild</class>
 		<class>org.test.entity.entitymapping.ParentEntityChildren</class>
 		<class>org.test.entity.entitymapping.EntityChild</class>
@@ -17,7 +18,7 @@
 			<property name="javax.persistence.jdbc.password" value="" />
 
 			<property name="eclipselink.target-database" value="org.eclipse.persistence.platform.database.HSQLPlatform" />
-			<!--<property name="eclipselink.cache.shared.default" value="false" />-->
+<!-- 			<property name="eclipselink.cache.shared.default" value="false" /> -->
 			<property name="eclipselink.ddl-generation" value="create-tables" />
 			<property name="eclipselink.logging.level" value="FINEST" />
 			<property name="eclipselink.logging.parameters" value="true" />

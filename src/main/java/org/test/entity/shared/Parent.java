@@ -1,9 +1,9 @@
 package org.test.entity.shared;
 
-import java.util.Set;
+import java.util.Collection;
 
 
 public interface Parent
 {
-	Set<? extends Child> getChildren();
+	Collection<? extends Child> getChildren();
 }

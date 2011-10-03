@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import org.test.entity.embeddedmapping.ParentEmbeddedChildren;
+import org.test.entity.embeddedmapping.ParentEmbeddedSetChildren;
 import org.test.entity.entitymapping.ParentEntityChildren;
 import org.test.entity.shared.Child;
 import org.test.entity.shared.Parent;
@@ -22,10 +22,18 @@ class DuplicateKeyCase
 	}
 
 
-	void embeededChildrenCase()
+	void embeededChildrenSetCase()
 	{
-		List<ParentEmbeddedChildren> parents = em.createNamedQuery(
-				"findAllParentWithEmbeddedChildren", ParentEmbeddedChildren.class ).getResultList();
+		List<ParentEmbeddedSetChildren> parents = em.createNamedQuery(
+				"findAllParentWithEmbeddedSetChildren", ParentEmbeddedSetChildren.class ).getResultList();
+		forceDuplicateKeyException( parents );
+	}
+
+
+	void embeededChildrenListCase()
+	{
+		List<ParentEmbeddedSetChildren> parents = em.createNamedQuery(
+				"findAllParentWithEmbeddedListChildren", ParentEmbeddedSetChildren.class ).getResultList();
 		forceDuplicateKeyException( parents );
 	}
 
