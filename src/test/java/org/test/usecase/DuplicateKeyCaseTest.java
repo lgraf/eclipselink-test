@@ -107,11 +107,24 @@ public class DuplicateKeyCaseTest
 	private void setUpDBInOwnTransaction()
 	{
 		em.getTransaction().begin();
+		insertEntityRelationsRecords();
+		insertParentEmbeddableSetRecords();
+		insertParentEmbeddableListRecords();
+		insertParentEntityRecords();
+		em.getTransaction().commit();
+	}
+
+
+	private void insertEntityRelationsRecords()
+	{
 		em.createNativeQuery( "INSERT INTO EntityRelation VALUES (1, 'relation1', 'STRING_T')" ).executeUpdate();
 		em.createNativeQuery( "INSERT INTO EntityRelation VALUES (2, 'relation2', 'INTEGER_T')" ).executeUpdate();
 		em.createNativeQuery( "INSERT INTO EntityRelation VALUES (3, 'relation3', 'DATE_T')" ).executeUpdate();
+	}
 
-		
+
+	private void insertParentEmbeddableSetRecords()
+	{
 		em.createNativeQuery( "INSERT INTO ParentEmbeddedSetChildren VALUES (1)" ).executeUpdate();
 		em.createNativeQuery( "INSERT INTO ParentEmbeddedSetChildren VALUES (2)" ).executeUpdate();
 		
@@ -121,8 +134,11 @@ public class DuplicateKeyCaseTest
 		em.createNativeQuery( "INSERT INTO ParentEmbeddedSetChildren_Children VALUES ('child4', 1, 2)" ).executeUpdate();
 		em.createNativeQuery( "INSERT INTO ParentEmbeddedSetChildren_Children VALUES ('child5', 2, 2)" ).executeUpdate();
 		em.createNativeQuery( "INSERT INTO ParentEmbeddedSetChildren_Children VALUES ('child6', 3, 2)" ).executeUpdate();
-		
-		
+	}
+
+	
+	private void insertParentEmbeddableListRecords()
+	{
 		em.createNativeQuery( "INSERT INTO ParentEmbeddedListChildren VALUES (1)" ).executeUpdate();
 		em.createNativeQuery( "INSERT INTO ParentEmbeddedListChildren VALUES (2)" ).executeUpdate();
 
@@ -132,8 +148,12 @@ public class DuplicateKeyCaseTest
 		em.createNativeQuery( "INSERT INTO ParentEmbeddedListChildren_Children VALUES ('child4', 1, 2)" ).executeUpdate();
 		em.createNativeQuery( "INSERT INTO ParentEmbeddedListChildren_Children VALUES ('child5', 2, 2)" ).executeUpdate();
 		em.createNativeQuery( "INSERT INTO ParentEmbeddedListChildren_Children VALUES ('child6', 3, 2)" ).executeUpdate();
-
-		
+	}
+	
+	
+	
+	private void insertParentEntityRecords()
+	{
 		em.createNativeQuery( "INSERT INTO ParentEntityChildren VALUES (1)" ).executeUpdate();
 		em.createNativeQuery( "INSERT INTO ParentEntityChildren VALUES (2)" ).executeUpdate();
 
@@ -143,10 +163,9 @@ public class DuplicateKeyCaseTest
 		em.createNativeQuery( "INSERT INTO EntityChild VALUES (4, 'child1', 1, 2)" ).executeUpdate();
 		em.createNativeQuery( "INSERT INTO EntityChild VALUES (5, 'child1', 2, 2)" ).executeUpdate();
 		em.createNativeQuery( "INSERT INTO EntityChild VALUES (6, 'child1', 3, 2)" ).executeUpdate();
-		em.getTransaction().commit();
 	}
 
-
+	
 	private void cleanUpDBInOwnTransaction()
 	{
 		em.getTransaction().begin();
